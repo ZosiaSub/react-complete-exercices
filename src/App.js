@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Person from './components/Person';
+import UserOutput from './components/UserOutput';
+import UserInput from './components/UserInput';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +10,8 @@ class App extends Component {
     persons: [
       { name: "Zosia", age: "34" },
       { name: "Marek", age: "34" }
-    ]
+    ],
+    username: "Staś"
   }
   switchName = () => {
     this.setState({
@@ -28,21 +31,34 @@ class App extends Component {
     })
   }
 
+  eventHandler = (event) => {
+    this.setState({
+      username: event.target.value
+    })
+  }
+
   render() {
+    
     return (
       <div className="App">
+        
         <h1>Hi this is the React App</h1>
-        <button onClick={this.switchName}>Switch name</button>
+        <button 
+        onClick={this.switchName}>
+        Switch name
+        </button>
+        <UserInput changeName={this.eventHandler}/>
+        <UserOutput userName={this.state.username}/>
         <Person 
           name={this.state.persons[0].name} 
           age={this.state.persons[0].age} 
-          tipeName={this.tipeName}>
+          tipe={this.tipeName}>
           Say hallo!</Person>
         <Person 
           name={this.state.persons[1].name} 
           age={this.state.persons[1].age} 
           click={this.switchName} 
-          tipeName={this.tipeName}/>        
+          tipe={this.tipeName} />        
       </div>
     );
   }
