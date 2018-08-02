@@ -1,40 +1,31 @@
 import React, { Component } from 'react';
 import Person from './components/Person';
-import UserOutput from './components/UserOutput';
-import UserInput from './components/UserInput';
 import './App.css';
+
 
 class App extends Component {
 
   state = {
     persons: [
-      { name: "Zosia", age: "34" },
-      { name: "Marek", age: "34" }
+      { name: "Zosia", age: "34", id: '1' },
+      { name: "Marek", age: "34", id: '2' }
     ],
-    username: "Staś"
-  }
-  switchName = () => {
-    this.setState({
-      persons: [
-        { name: "Zofia", age: "30" },
-        { name: "Marek", age: "40" }
-      ]
-    })
+    showPersons: false
   }
 
-  tipeName = (event) => {
-    this.setState({
-      persons: [
-        { name: event.target.value, age: "30" },
-        { name: event.target.value, age: "40" }
-      ]
-    })
+  userName = (event) => {
+    return event.target.value
   }
 
-  eventHandler = (event) => {
-    this.setState({
-      username: event.target.value
-    })
+  tipeName = (personIndex) => {
+    const persons = this.state.persons;
+    persons[personIndex].name = this.userName;
+    this.setState({ persons: persons })
+  }
+
+  personListHandler = (state) => {
+    const personsState = this.state.showPersons;
+    this.setState({ showPersons: !personsState })
   }
 
   render() {
@@ -44,21 +35,21 @@ class App extends Component {
         
         <h1>Hi this is the React App</h1>
         <button 
-        onClick={this.switchName}>
-        Switch name
+        onClick={this.personListHandler}>
+        Switch list
         </button>
-        <UserInput changeName={this.eventHandler}/>
-        <UserOutput userName={this.state.username}/>
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-          tipe={this.tipeName}>
-          Say hallo!</Person>
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age} 
-          click={this.switchName} 
-          tipe={this.tipeName} />        
+        <div>
+          { this.state.showPersons === true ?
+            this.state.persons.map( (person, index) => 
+              <Person 
+                key={index}
+                name={person.name} 
+                age={person.age}
+                tipe={()=> this.tipeName(index)}
+              /> 
+            ) : null               
+          }
+        </div>  
       </div>
     );
   }
