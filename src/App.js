@@ -7,33 +7,34 @@ class App extends Component {
 
   state = {
     persons: [
-      { name: "Zosia", age: "34", id: '1' },
-      { name: "Marek", age: "34", id: '2' }
+      { name: "Zosia", age: "34" },
+      { name: "Marek", age: "34" }
     ],
     showPersons: false
-  }
+  };
 
-  userName = (event) => {
-    return event.target.value
-  }
+  writeName = (ev) => {
+      const id = parseInt(
+          ev.target.id.substr(ev.target.id.indexOf('_') + 1),
+          10
+      );
+      const value = ev.target.value;
+      const persons = this.state.persons;
+      persons[id].name = value;
+      this.setState({ persons: persons });
+  };
 
-  tipeName = (personIndex) => {
-    const persons = this.state.persons;
-    persons[personIndex].name = this.userName;
-    this.setState({ persons: persons })
-  }
-
-  personListHandler = (state) => {
+  personListHandler = () => {
     const personsState = this.state.showPersons;
     this.setState({ showPersons: !personsState })
-  }
+  };
 
   render() {
     
     return (
       <div className="App">
         
-        <h1>Hi this is the React App</h1>
+        <h1>Hi this is the React App :P</h1>
         <button 
         onClick={this.personListHandler}>
         Switch list
@@ -45,7 +46,8 @@ class App extends Component {
                 key={index}
                 name={person.name} 
                 age={person.age}
-                tipe={()=> this.tipeName(index)}
+                callback={this.writeName}
+                id={index}
               /> 
             ) : null               
           }
