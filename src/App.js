@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Person from './components/Person';
 import ValidationComponent from './components/ValidationComponent';
+import CharComponent from './components/CharComponent';
 import './App.css';
 
 
@@ -12,30 +13,46 @@ class App extends Component {
       { name: "Marek", age: "34", id: 'p2'}
     ],
     showPersons: false,
-    length: 0
+    length: 0,
+    word: ''
   };
 
   writeName = (event, id) => {
       const personIndex = this.state.persons.findIndex( p => {
           return p.id === id;
       })
-      // const person = { ...this.state.person[personI
       const value = event.target.value;
       const persons = [ ...this.state.persons ];
       persons[personIndex].name = value;
       this.setState({ persons: persons });
-  };
+  };  
 
   personListHandler = () => {
     const personsState = this.state.showPersons;
     this.setState({ showPersons: !personsState })
   };
 
-  textLengthHandler = (event) => {
+  wordToArray = () => {
+    const word = this.state.word;
+    const arr = word.split('');
+    return arr;
+  };
+
+  deleteCharacterFromWord = (index) => {
+    //const indexNumber = Number.parseInt(index, 10);
+    const word = this.state.word
+    const arr = word.split('');
+    arr.splice(index, 1);
+    const newWord = arr.join('');
+    this.setState({ word: newWord });
+  }
+
+  textHandler = (event) => {
     const value = event.target.value;
     const textLength = value.length;
     this.setState({
-        length: textLength
+        length: textLength,
+        word: value
     })
   };
 
@@ -67,9 +84,21 @@ class App extends Component {
           }
         </div>
           <input
-              onChange={(event) => this.textLengthHandler(event)}
+          text='text'
+              onChange={(event) => this.textHandler(event)}
+              value={this.state.word}
           /> 
           <ValidationComponent text={this.checkLength()} />
+          <div>
+            { this.wordToArray().map( (c, index) => 
+                <CharComponent 
+                  character={c} 
+                  key={index}
+                  onClick={() => this.deleteCharacterFromWord(index)}
+                />                
+              )
+            }            
+          </div>         
       </div>
     );
   }
