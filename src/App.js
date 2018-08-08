@@ -39,7 +39,6 @@ class App extends Component {
   };
 
   deleteCharacterFromWord = (index) => {
-    //const indexNumber = Number.parseInt(index, 10);
     const word = this.state.word
     const arr = word.split('');
     arr.splice(index, 1);
