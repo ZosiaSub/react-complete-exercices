@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Person from './components/Person';
+import Persons from '../src/components/Persons/Persons';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
 import './App.css';
@@ -71,16 +71,11 @@ class App extends Component {
         Switch list
         </button>
         <div>
-          { this.state.showPersons === true ?
-            this.state.persons.map( person =>
-              <Person 
-                key={person.id}
-                name={person.name} 
-                age={person.age}
-                callback={(event) => this.writeName(event, person.id)}
-                id={person.id}
-              /> 
-            ) : null               
+          { this.state.showPersons === true 
+            ? <Persons
+                persons={this.state.persons}
+                action={this.writeName} /> 
+            : null
           }
         </div>
           <input
