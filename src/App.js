@@ -3,8 +3,6 @@ import Persons from '../src/components/Persons/Persons';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
 import './App.css';
-import Radium from 'radium';
-
 
 class App extends Component {
 
@@ -67,12 +65,7 @@ class App extends Component {
       color: 'white',
       border: '1px solid white',
       padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-          backgroundColor: 'lightgreen',
-          color: 'darkgreen',
-          fontSize: '18px'
-      }
+      cursor: 'pointer'
     };
 
     const classes = [];
