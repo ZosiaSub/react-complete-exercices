@@ -3,6 +3,7 @@ import Persons from '../src/components/Persons/Persons';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
 import './App.css';
+import Radium from 'radium';
 
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
   writeName = (event, id) => {
       const personIndex = this.state.persons.findIndex( p => {
           return p.id === id;
-      })
+      });
       const value = event.target.value;
       const persons = [ ...this.state.persons ];
       persons[personIndex].name = value;
@@ -39,12 +40,12 @@ class App extends Component {
   };
 
   deleteCharacterFromWord = (index) => {
-    const word = this.state.word
+    const word = this.state.word;
     const arr = word.split('');
     arr.splice(index, 1);
     const newWord = arr.join('');
     this.setState({ word: newWord });
-  }
+  };
 
   textHandler = (event) => {
     const value = event.target.value;
@@ -60,20 +61,42 @@ class App extends Component {
   };
 
   render() {
-    
+
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      border: '1px solid white',
+      padding: '8px',
+      cursor: 'pointer',
+      ':hover': {
+          backgroundColor: 'lightgreen',
+          color: 'darkgreen',
+          fontSize: '18px'
+      }
+    };
+
+    const classes = [];
+    if (this.state.length < 5) {
+        classes.push('red');
+    }
+    if (this.state.length >=5 ) {
+        classes.push('blue');
+    }
+
     return (
       <div className="App">
-        
+
         <h1>Hi this is the React App :P</h1>
-        <button 
-        onClick={this.personListHandler}>
+        <button
+            style={style}
+            onClick={this.personListHandler}>
         Switch list
         </button>
         <div>
-          { this.state.showPersons === true 
+          { this.state.showPersons === true
             ? <Persons
                 persons={this.state.persons}
-                action={this.writeName} /> 
+                action={this.writeName} />
             : null
           }
         </div>
@@ -81,21 +104,24 @@ class App extends Component {
           text='text'
               onChange={(event) => this.textHandler(event)}
               value={this.state.word}
-          /> 
-          <ValidationComponent text={this.checkLength()} />
+          />
+          <ValidationComponent
+              style={classes}
+              text={this.checkLength()}
+          />
           <div>
-            { this.wordToArray().map( (c, index) => 
-                <CharComponent 
-                  character={c} 
+            { this.wordToArray().map( (c, index) =>
+                <CharComponent
+                  character={c}
                   key={index}
                   onClick={() => this.deleteCharacterFromWord(index)}
-                />                
+                />
               )
-            }            
-          </div>         
+            }
+          </div>
       </div>
     );
   }
 }
 
-export default App;
+export default Radium(App);
