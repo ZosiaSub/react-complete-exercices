@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Persons from '../src/components/Persons/Persons';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
-import './App.css';
+import styles from './App.css';
 
 class App extends Component {
 
@@ -60,33 +60,29 @@ class App extends Component {
 
   render() {
 
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      border: '1px solid white',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
+    let btnClass = '';
+    if (this.state.showPersons){
+        btnClass = styles.Red;
+    }
     const classes = [];
     if (this.state.length < 5) {
-        classes.push('red');
+        classes.push(styles.red);
     }
     if (this.state.length >=5 ) {
-        classes.push('blue');
+        classes.push(styles.blue);
     }
 
     return (
-      <div className="App">
+      <div className={styles.App}>
 
         <h1>Hi this is the React App :P</h1>
         <button
-            style={style}
+            className={btnClass}
             onClick={this.personListHandler}>
         Switch list
         </button>
         <div>
-          { this.state.showPersons === true
+          { this.state.showPersons
             ? <Persons
                 persons={this.state.persons}
                 action={this.writeName} />
@@ -117,4 +113,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;
